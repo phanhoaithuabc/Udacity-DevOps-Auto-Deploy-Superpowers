@@ -25,6 +25,12 @@ The goal of a build phase is to compile or lint the source code to check for syn
 
 - Find the job named `build-frontend` in the `.circleci/config.yml` file. 
   - Add code to build/compile the front-end.
+
+    ```
+    cd frontend
+    npm install
+    npm run build
+    ```
 - Find another job named `build-backend` in the `.circleci/config.yml` file. 
   - Add code to build/compile the back-end.
 - Notice that both jobs have selected a Docker image that is compatible with NodeJS.
@@ -36,6 +42,7 @@ The goal of a build phase is to compile or lint the source code to check for syn
 - We have provided an easy-to-fix compile error in the code to prove the jobs fail. Provide a screenshot of jobs that failed because of compile errors. **[SCREENSHOT01]**
 ![Job properly failing because of compile errors.](screenshots/SCREENSHOT01.png)
 - Fix the compile error so that the pipeline can continue (see code-comment that guides you to the fix).
+- Fix the intentional error in the /backend/src/main.ts file that caused the compilation error. See code-comment that guides you to the fix. On pushinig your changes to the repo, the pipeline will continue.
 
 #### 2. Test Phase
 
@@ -43,12 +50,24 @@ Unit tests are one of the many very important building blocks of a system that e
 
 - Find the jobs named `test-frontend` and `test-backend` in the config file. 
   - For both jobs, select a Docker image that is compatible with NodeJS.
-  - Write code to run all the unit tests in both layers. 
+  - Write code to run all the unit tests in both layers.
+
+    ```
+    cd frontend
+    npm install
+    npm run test
+    ```
 - Remember, we separate the frontend and backend into separate jobs!
 - A unit test job should fail the job and prevent any future jobs from running.
 - We have provided one failing test in both front-end and back-end. Provide a screenshot of the failed unit tests in the "Test Failures" tab. **[SCREENSHOT02]**
 ![Job properly failing because of test failures.](screenshots/SCREENSHOT02.png)
 - Fix the unit tests and make the job succeed.
+
+We have provided the following intentional failing test in both frontend and backend. See code-comment that guides you to the fix:
+
+frontend/src/app/components/LoadingMessage/LoadingMessage.spec.tsx
+
+backend/src/modules/domain/employees/commands/handlers/employee-activator.handler.spec.ts
 
 #### 3. Analyze Phase
 
@@ -58,15 +77,45 @@ UdaPeople handles some private information like social security numbers, salary 
   - For both jobs, select a Docker image that is compatible with NodeJS.
   - Write code to check for security vulnerabilities in the packages used in the application.
     - Use `npm` to “audit” the code to check for known package vulnerabilities. Just `cd` into the directory of front-end and back-end and run the following:
-```bash
-npm audit --audit-level=critical
-```
+    ```
+    cd frontend
+    npm install
+    # npm install oauth-sign@^0.9.0
+    npm audit --audit-level=critical
+    ```
+- Note that the --audit-level parameter above specifies the minimum vulnerability level that will cause the command to fail. This option does not filter the report output, it simply changes the command's failure threshold.
+
 - Job should fail if any major vulnerabilities are found (fail for the right reasons). We left you an intentional vulnerability to cause a failure. Provide a screenshot of jobs that failed because of vulnerable packages listed. **[SCREENSHOT03]**
 ![Job properly failing because of security vulnerabilities.](screenshots/SCREENSHOT03.png)
 - Fix the vulnerability using the command below and re-run the job.
+  ```bash
+  # Do not use the --force option along with the command below in your local
+  npm audit fix --audit-level=critical --force
+  ```
+
+But, the command above may:
+
+- leave behind few critical vulnerabilities that require manual review.
+- behave differently on different Node/npm versions locally.
+cause the build/test job to fail.
+- In addition, the vulnerabilities evolve with time.
+
+Therefore, you need to upgrade the vulnerable packages in the backend/package.json file in your local manually to:
+  ```
+  "class-validator": "0.12.2"
+  "standard-version": "^7.0.0"
+  ```
+
+To make the scan-frontend and scan-backend jobs pass, you can use the following code in the jobs:
+
 ```bash
 npm audit fix --audit-level=critical --force
+# If the "npm audit fix" command above could not fix all critical vulnerabilities, try “npm audit fix --force” again
+npm audit --audit-level=critical
 ```
+Note that the npm audit fix in the jobs above will not have any impact on the actual code being deployed in the further jobs.
+Push your commits to the remote repository on Github.
+
 - A failed analysis should stop all future jobs.
 
 #### 4. Alerts
@@ -77,3 +126,9 @@ When a build fails for any reason, the UdaPeople dev team needs to know about it
 - Alerts should include a summary of what happened and a link to the job console output for quick troubleshooting.
 - Provide a screenshot of an alert from one of your failed builds. **[SCREENSHOT04]**
 ![An alert when the build breaks.](screenshots/SCREENSHOT04.png)
+
+The steps for configurinig the Slack notification are:
+
+1. Setup Authentication https://github.com/CircleCI-Public/slack-orb/wiki/Setup
+
+2. Integrate Slack orb https://circleci.com/developer/orbs/orb/circleci/slack

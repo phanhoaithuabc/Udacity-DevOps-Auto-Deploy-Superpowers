@@ -1,7 +1,5 @@
 # Udacity-DevOps-Auto-Deploy-Superpowers
 
-## Give your Application Auto-Deploy Superpowers
-
 In this project, you will prove your mastery of the following learning objectives:
 
 - Explain the fundamentals and benefits of CI/CD to achieve, build, and deploy automation for cloud-based software products.
@@ -62,10 +60,80 @@ Throughout this project, you will be asked to take screenshots or provide URLs t
 
 It's worth mentioning here since it's much harder to harvest some screen shots once you've passed certain milestones. It's best if you take screenshots along the way and store them in a folder on your computer until you're ready to turn the project in. Also, it's good to keep a document or notepad with the list of urls that are requested.
 
-### Rubric
+## Rubric
 Before you start coding your solution, it will be a good idea to have a quick look at the Rubric criteria against which your submisssion will be evaluated.
 
-![Diagram of CI/CD Pipeline we will be building.](udapeople.png)
+### PROJECT SPECIFICATION
+
+Section 1: Selling CI/CD to your Team/Organization
+
+Explain the fundamentals and benefits of CI/CD to achieve, build, and deploy automation for cloud-based software products. 
+=> The CI/CD benefits proposal contains essential benefits of CI/CD, and describes the business context that will benefit from the automation tools. Explanation should include benefits that translate to revenue and cost for the business.
+
+Section 2: Deploying Working, Trustworthy Software
+
+Utilize Deployment Strategies to design and build CI/CD pipelines that support Continuous Delivery processes.
+
+=> A public git repository with your project code. [URL01]
+
+=> Evidence of code-based CI/CD configuration in the form of yaml files in your git repository.
+
+=> Console output of various pre-deploy job failure scenarios:
+
+=> Build Jobs that failed because of compile errors. [SCREENSHOT01]
+
+=> Failed unit tests. [SCREENSHOT02]
+
+=> Failure because of vulnerable packages. [SCREENSHOT03]
+
+=> An alert from one of your failed builds. [SCREENSHOT04]
+
+Evidence in your code that:
+
+=> Compile errors have been fixed.
+
+=> Unit tests have been fixed.
+
+=> All critical security vulnerabilities caught by the “Analyze” job have been fixed.
+
+Utilize a configuration management tool to accomplish deployment to cloud-based servers.
+
+=> Console output of appropriate failure for infrastructure creation job (using CloudFormation). [SCREENSHOT05]
+
+=> Console output of a smoke test job that is failing appropriately. [SCREENSHOT06]
+
+=> Console output of a successful rollback after a failed smoke test. [SCREENSHOT07]
+
+=> Console output of successful promotion of new version to production in CloudFront. [SCREENSHOT08]
+
+=> Console output of successful cleanup job that removes old S3 bucket and EC2 instance. [SCREENSHOT09]
+
+=> Evidence that deploy jobs only happen on master branch. [SCREENSHOT10]
+
+=> Evidence of deployed and functioning front-end application in an S3 bucket [URL02] and in CloudFront. [URL03]
+
+=> Evidence of healthy back-end application. [URL04]
+
+Section 3: Turn Errors into Sirens
+
+Surface critical server errors for diagnosis using centralized logging.
+
+=> Evidence of Prometheus Server. [URL05]
+
+=> Evidence that Prometheus is monitoring memory, cpu and disk usage of EC2 instances. [SCREENSHOT11]
+
+=> Evidence that Prometheus and AlertManager send alerts when certain conditions exist in the EC2 instance. [SCREENSHOT12]
+
+Suggestions to Make Your Project Stand Out!
+
+=> Add custom alert messages with more specific CI/CD pipeline failure reasons. The more specific the message, the faster the UdaPeople dev team can fix the issue.
+
+=> Use Circle CI locally to test your pipeline before pushing to git.
+
+=> Integrate other types of analysis or notification jobs.
+
+=> Write your own smoke tests to build more confidence before promoting the new build to production.
+
 
 ### Instructions
 
