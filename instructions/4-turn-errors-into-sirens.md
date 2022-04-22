@@ -12,6 +12,8 @@ Please watch the [video walkthrough of how to set up your EC2 instance and Prome
 - Set up Prometheus Server on EC2 following [these instructions](https://codewizardly.com/prometheus-on-aws-ec2-part1/).
 - Configure Prometheus for AWS Service Discovery following [these instructions](https://codewizardly.com/prometheus-on-aws-ec2-part3/).
 
+Tip: After makinig edits to the prometheus.yml file in the Prometheus EC2 instance, you can consider restarting the EC2 instance. Consequently, SSH log into the EC2 instance again, and start the Prometheus server.
+
 ### To Do
 
 #### 1. Setup Back-End Monitoring
@@ -24,14 +26,33 @@ In order for server instances to speak to Prometheus, we need to install an “e
 
 ![Graphs of CPU, Disk and Memory utilization on systems being monitored.](screenshots/SCREENSHOT11.png)
 
+![Example - Free memory](screenshots/screenshot19.png)
+
+![](screenshots/screenshot20.png)
+
 - Provide a public URL to your Prometheus Server. **[URL05]**
+
+Tip: When you see error like: err="opening storage failed: lock DB directory: resource temporarily unavailable", you can consider restarting the Prometheus server.
+
+Tip: For your Backend EC2 instance, ensure that the port 9100 is open for inbound connections.
 
 #### 2. Setup Alerts
 
 Now that Prometheus and our EC2 instance have an open line of communication, we need to set up some alerts. The UdaPeople dev team loves their chat tool and wants to receive an alert in chat when the server starts running out of memory or disk space. Set up a job to make that dream a reality.
 
 - SSH into your Prometheus Server.
-- Install and configure AlertManager by following [these instructions](https://codewizardly.com/prometheus-on-aws-ec2-part4/).
+- Install and configure AlertManager by following [these instructions](https://codewizardly.com/prometheus-on-aws-ec2-part4/). The steps would be similar to:
+
+```bash
+mkdir alertmanager
+cd alertmanager
+wget https://github.com/prometheus/alertmanager/releases/download/v0.23.0/alertmanager-0.23.0.linux-amd64.tar.gz
+tar xvzf alertmanager-0.23.0.linux-amd64.tar.gz
+cd alertmanager-0.23.0.linux-amd64/
+# Edit the alertmanager.yml file
+./alertmanager --config.file=./alertmanager.yml
+```
+
 - You can decide if you will use Slack, email, or another messaging service. Our examples are using Slack, but you should feel free to use the messaging service to which you are most accustomed.
 - Set up an alert for low memory or some condition you can control to intentionally cause an alert.
 - Provide a screenshot of an alert that was sent by Prometheus. **[SCREENSHOT12]**
