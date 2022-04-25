@@ -203,7 +203,7 @@ jobs:
   configure-infrastructure:
     docker:
       # Docker image here that supports Ansible
-      - image: ansible/ansible
+      - image: ansible/ansible:ubuntu1404
     steps:
       - checkout
       # Add ssh keys with fingerprint
