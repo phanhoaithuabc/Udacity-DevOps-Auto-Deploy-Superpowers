@@ -218,7 +218,7 @@ jobs:
           name: Install dependencies
           command: |
             ls
-            yum -y install tar gzip ansible aws-cli
+            apt -y install tar gzip ansible aws-cli
       - run:
           name: Configure server
           command: |
