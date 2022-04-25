@@ -14,7 +14,7 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            echo "Destroying environment: << parameters.workflow_id >> "
+            # echo "Destroying environment: << parameters.workflow_id >> "
             # Your code goes here  
             aws delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
             aws delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
@@ -217,7 +217,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apt -y install update upgrade 
+            apt -y update upgrade 
             apt -y install tar gzip ansible aws-cli
       - run:
           name: Configure server
@@ -265,16 +265,16 @@ jobs:
       # Checkout code from git
       - checkout
       - attach_workspace:
-          at: ~/project/backend
+          at: ~/project/frontend
       - run:
           name: Install dependencies
           command: |
-            apt install Python Ansible Node NPM aws-cli
+            yum -y install python ansible nodejs
       - run:
           name: Get backend url
           command: |
             # your code here
-            export BACKEND_IP=$(aws ec2 describe-instances...............)
+            export BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> ~/project/.circleci/ansible/inventory.txt)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
