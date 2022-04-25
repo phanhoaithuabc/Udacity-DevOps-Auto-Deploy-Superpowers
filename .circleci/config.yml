@@ -217,10 +217,12 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apt install tar gzip ansible aws-cli
+            ls
+            yum -y install tar gzip ansible aws-cli
       - run:
           name: Configure server
           command: |
+            ls
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
       # Here's where you will add some code to rollback on failure      
