@@ -1,2 +1,5 @@
 Public Url to GitHub repository: https://github.com/phanhoaithuabc/Udacity-DevOps-Auto-Deploy-Superpowers
 Public URL for your S3 Bucket: 
+Public URL for Cloudfront distribution:
+Public URLs to deployed application backend in EC2:
+Public URL to Prometheus Server:
