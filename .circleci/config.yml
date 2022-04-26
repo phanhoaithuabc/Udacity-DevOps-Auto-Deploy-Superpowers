@@ -209,8 +209,7 @@ jobs:
       - checkout
       # Add ssh keys with fingerprint
       - add_ssh_keys:
-          fingerprints:
-            - "ff:49:1e:eb:73:f1:cb:73:64:03:8c:74:7e:98:09:b0"
+          fingerprints: ["05:12:ee:9f:ef:1c:4a:45:36:aa:dc:c1:08:5c:8d:8f"]
       # attach workspace
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
