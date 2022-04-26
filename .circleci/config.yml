@@ -223,6 +223,7 @@ jobs:
             # software-properties-common
             # add-apt-repository ppa:deadsnakes/ppa -y
             apt -y install ansible
+            pip install ansible
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
             ./aws/install
