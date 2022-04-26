@@ -241,7 +241,7 @@ jobs:
   run-migrations:
     docker:
       # Docker image here that supports NodeJS
-      - image: circleci/node:16.0.0
+      - image: circleci/node:16.13.1-bullseye-browsers-legacy
     steps:
       # Checkout code from git
       - checkout
@@ -256,7 +256,6 @@ jobs:
             npm install
             npm audit fix --force
             npm audit fix --audit-level=critical --force
-            npm audit fix --force
             npm audit fix --force
             # npm audit --audit-level=critical
             # Run and save the migration output
