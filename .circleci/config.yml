@@ -214,7 +214,7 @@ jobs:
       # attach workspace
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
-          at: project/.circleci/ansible
+          at: ~/project/.circleci/ansible
       - run:
           name: Install dependencies
           command: |
@@ -252,6 +252,7 @@ jobs:
             # Your code here
             cd backend
             npm install
+            npm audit fix
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
             # Run and save the migration output
