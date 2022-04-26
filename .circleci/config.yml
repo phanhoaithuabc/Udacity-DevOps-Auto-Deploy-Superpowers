@@ -219,7 +219,7 @@ jobs:
           command: |
             apt update
             apt -y upgrade 
-            apt -y install tar gzip unzip 
+            apt -y install tar gzip unzip curl
             # software-properties-common
             # add-apt-repository ppa:deadsnakes/ppa -y
             apt -y install ansible
