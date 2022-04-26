@@ -219,7 +219,9 @@ jobs:
           command: |
             apt update
             apt -y upgrade 
-            apt -y install tar gzip unzip python3.8 ansible
+            apt -y install tar gzip unzip software-properties-common
+            add-apt-repository ppa:deadsnakes/ppa 
+            apt -y install python3.8 ansible
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
             sudo ./aws/install
