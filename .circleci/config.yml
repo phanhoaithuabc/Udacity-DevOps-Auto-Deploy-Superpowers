@@ -201,10 +201,11 @@ jobs:
   configure-infrastructure:
     docker:
       # Docker image here that supports Ansible
-      - image: brunneis/python:3.8.3-ubuntu-20.04
+      - image: cimg/node:16.13.1
     steps:
       - checkout
       # Add ssh keys with fingerprint
+      - aws-cli/setup
       - add_ssh_keys:
           fingerprints: ["05:12:ee:9f:ef:1c:4a:45:36:aa:dc:c1:08:5c:8d:8f"]
       # attach workspace
@@ -216,14 +217,14 @@ jobs:
           command: |
             apt update
             apt -y upgrade 
-            apt -y install tar gzip unzip curl
-            # software-properties-common
-            # add-apt-repository ppa:deadsnakes/ppa -y
-            apt -y install ansible
+            apt -y install tar gzip unzip curl software-properties-common
+            add-apt-repository ppa:deadsnakes/ppa -y
+            apt update
+            apt -y install python3.8 ansible
             pip install ansible
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            ./aws/install
+            # curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            # unzip awscliv2.zip
+            # ./aws/install
       - run:
           name: Configure server
           command: |
@@ -329,7 +330,7 @@ jobs:
   deploy-backend:
     docker:
       # Docker image here that supports Ansible
-      - image: python:3.7-alpine3.11
+      - image: cimg/node:16.13.1
     steps:
       # Checkout code from git
       - checkout
@@ -346,8 +347,6 @@ jobs:
           command: |
             # your code here
             apk add --update ansible
-            apk add --update npm
-            apk add --update nodejs
       - run:
           name: Deploy backend
           command: |
