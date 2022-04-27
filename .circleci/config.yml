@@ -249,10 +249,10 @@ jobs:
       - checkout
       - restore_cache:
           keys: [backend-build]
-      - run: 
-          name: install nvm to install node
-          command: |
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+      # - run: 
+      #     name: install nvm to install node
+      #     command: |
+      #       curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 
       # - run:
       #     name: Run migrations
@@ -280,11 +280,10 @@ jobs:
             echo "TYPEORM_MIGRATIONS_DIR = ${TYPEORM_MIGRATIONS_DIR}" >> ~/project/backend/.env
             cd ~/project/backend
             source ~/.profile 
-            nvm install v13.8.0 
+            # nvm install v13.8.0 
             npm install 
-            npm audit fix --force
-            npm run build
             npm audit fix --audit-level=critical --force
+            npm audit fix --force
             npm run migrations > migrations_dump.txt 
 
       - run:
