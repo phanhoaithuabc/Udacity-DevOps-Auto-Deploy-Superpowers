@@ -248,7 +248,7 @@ jobs:
       # Checkout code from git
       - checkout
       - restore_cache:
-          keys: [backend-build]
+          keys: [backend-scan]
       # - run: 
       #     name: install nvm to install node
       #     command: |
@@ -278,12 +278,12 @@ jobs:
             echo "TYPEORM_DATABASE = ${TYPEORM_DATABASE}" >> ~/project/backend/.env
             echo "TYPEORM_MIGRATIONS = ${TYPEORM_MIGRATIONS}" >> ~/project/backend/.env
             echo "TYPEORM_MIGRATIONS_DIR = ${TYPEORM_MIGRATIONS_DIR}" >> ~/project/backend/.env
-            cd ~/project/backend
-            source ~/.profile 
+            # cd ~/project/backend
+            # source ~/.profile 
             # nvm install v13.8.0 
-            npm install 
-            npm audit fix --audit-level=critical --force
-            npm audit fix --force
+            # npm install 
+            # npm audit fix --audit-level=critical --force
+            # npm audit fix --force
             npm run migrations > migrations_dump.txt 
 
       - run:
@@ -298,10 +298,10 @@ jobs:
                 curl https://kvdb.io/4WiWChKRYZreuJYXqzgZFL/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
       # Here's where you will add some code to rollback on failure      
-      - persist_to_workspace:
-          root: ~/
-          paths: 
-            - project/backend/migrations_dump.txt 
+      # - persist_to_workspace:
+      #     root: ~/
+      #     paths: 
+      #       - project/backend/migrations_dump.txt 
 
       # - destroy-environment:
       #     workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
