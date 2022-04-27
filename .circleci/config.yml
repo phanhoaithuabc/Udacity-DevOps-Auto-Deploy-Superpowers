@@ -281,7 +281,7 @@ jobs:
             cd ~/project/backend
             # source ~/.profile 
             # nvm install v13.8.0 
-            # npm install 
+            npm install 
             # npm audit fix --audit-level=critical --force
             # npm audit fix --force
             npm run migrations > migrations_dump.txt 
