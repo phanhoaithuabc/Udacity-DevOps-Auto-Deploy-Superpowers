@@ -339,7 +339,7 @@ jobs:
       # attach workspace
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
-          at: at: ~/project/backend
+          at: ~/project/backend
       - run:
           name: Install dependencies
           command: |
