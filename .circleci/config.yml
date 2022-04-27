@@ -314,12 +314,12 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
-      - attach_workspace:
-          at: ~/project/frontend
       - run:
           name: Install dependencies
           command: |
-            yum -y install python ansible nodejs
+            yum -y install tar gzip ansible nodejs
+      - attach_workspace:
+          at: ~/project/frontend
       - run:
           name: Get backend url
           command: |
