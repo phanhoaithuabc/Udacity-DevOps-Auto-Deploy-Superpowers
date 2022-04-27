@@ -8,7 +8,9 @@ commands:
     description: Destroy backend and frontend cloudformation stacks given a workflow ID.
     parameters:
       workflow_id:
-        type: string      
+        type: string    
+      event:
+        type: string
     steps:
       - run:
           name: Destroy environments
@@ -299,7 +301,7 @@ jobs:
           root: ~/
           paths: 
             - project/backend/migrations_dump.txt 
-            
+
       - destroy-environment:
           workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
           event: on_fail
