@@ -333,6 +333,7 @@ jobs:
     steps:
       # Checkout code from git
       - checkout
+      - aws-cli/setup
       # Add ssh keys with fingerprint
       - add_ssh_keys:
           fingerprints: ["05:12:ee:9f:ef:1c:4a:45:36:aa:dc:c1:08:5c:8d:8f"]
@@ -371,9 +372,7 @@ jobs:
             cp -r artifact.tar.gz ./.circleci/ansible/roles/deploy/files/
             cd .circleci/ansible
             echo "Content of inventory"
-            aws ec2 describe-instances \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text >> ~/project/.circleci/ansible/inventory.txt
+            aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> ~/project/.circleci/ansible/inventory.txt
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
