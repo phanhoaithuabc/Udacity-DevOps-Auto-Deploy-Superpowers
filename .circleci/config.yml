@@ -215,12 +215,12 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apt update
-            apt -y upgrade 
-            apt -y install tar gzip unzip curl software-properties-common
-            add-apt-repository ppa:deadsnakes/ppa -y
-            apt update
-            apt -y install python3.8 ansible
+            sudo apt update
+            sudo apt -y upgrade 
+            sudo apt -y install tar gzip unzip curl software-properties-common
+            sudo add-apt-repository ppa:deadsnakes/ppa -y
+            sudo apt update
+            sudo apt -y install python3.8 ansible
             pip install ansible
             # curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             # unzip awscliv2.zip
