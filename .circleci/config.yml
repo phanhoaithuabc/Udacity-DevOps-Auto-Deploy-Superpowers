@@ -227,7 +227,7 @@ jobs:
             # unzip awscliv2.zip
             # ./aws/install
       - run:
-          name: Configure server
+          name: Configure server 
           command: |
             cd .circleci/ansible
             aws ec2 describe-instances \
