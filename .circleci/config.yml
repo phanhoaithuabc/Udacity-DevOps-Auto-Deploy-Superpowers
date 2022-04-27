@@ -194,35 +194,35 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - project/.circleci/ansible
+            - project/.circleci/ansible/inventory.txt
       # Here's where you will add some code to rollback on failure  
       - destroy-environment    
 
   configure-infrastructure:
     docker:
       # Docker image here that supports Ansible
-      - image: cimg/node:16.13.1
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       # Add ssh keys with fingerprint
-      - aws-cli/setup
+      # - aws-cli/setup
       - add_ssh_keys:
           fingerprints: ["05:12:ee:9f:ef:1c:4a:45:36:aa:dc:c1:08:5c:8d:8f"]
       # attach workspace
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
-          at: ~/project/.circleci/ansible
+          at: ~/
       - run:
           name: Install dependencies
           command: |
-            sudo apt update
-            sudo apt -y upgrade 
-            sudo apt -y install tar gzip unzip curl software-properties-common
-            sudo add-apt-repository ppa:deadsnakes/ppa -y
-            sudo apt update
-            sudo apt -y install python3.8 ansible
-            sudo apt install python3-pip
-            pip3 install ansible
+            apk add --update ansible
+            # sudo apt update
+            # sudo apt -y upgrade 
+            # sudo apt -y install tar gzip unzip curl software-properties-common
+            # sudo add-apt-repository ppa:deadsnakes/ppa -y
+            # sudo apt -y install python3.8 ansible
+            # sudo apt install python3-pip
+            # pip3 install ansible
             # curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             # unzip awscliv2.zip
             # ./aws/install
@@ -230,9 +230,9 @@ jobs:
           name: Configure server 
           command: |
             cd .circleci/ansible
-            aws ec2 describe-instances \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text >> ~/project/.circleci/ansible/inventory.txt
+            # aws ec2 describe-instances \
+            #   --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            #   --output text >> ~/project/.circleci/ansible/inventory.txt
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
       # Here's where you will add some code to rollback on failure     
