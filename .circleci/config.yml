@@ -370,7 +370,10 @@ jobs:
             mkdir -p ./.circleci/ansible/roles/deploy/files
             cp -r artifact.tar.gz ./.circleci/ansible/roles/deploy/files/
             cd .circleci/ansible
-            echo "Contents  of the inventory.txt file is -------"
+            echo "Content of inventory"
+            aws ec2 describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text >> ~/project/.circleci/ansible/inventory.txt
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
       # Here's where you will add some code to rollback on failure  
