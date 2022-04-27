@@ -13,8 +13,8 @@ commands:
           when: on_fail
           command: |
             # Your code goes here  
-            aws delete-stack --stack-name udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}
-            aws delete-stack --stack-name udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}
+            aws cloudformation delete-stack --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
+            aws cloudformation delete-stack --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
     
   revert-migrations:
     description: Revert the last migration if successfully run in the current workflow
@@ -315,7 +315,6 @@ jobs:
           command: |
             # your code here
             # backend url gets "baked" into the front-end
-            npm run build
             # Copy the files to your new S3 Bucket using AWS CLI
             cd frontend
             npm install
@@ -461,19 +460,21 @@ jobs:
   cleanup:
       docker:
         # Docker image here
-        - image: amazon/aws-cli
+        - image: cimg/node:16.13.1
       steps:
         # Checkout code from git
         - checkout
+        - attach_workspace:
+            at: ~/
+        - aws-cli/setup
         - run:
             name: Get old stack workflow id
             command: |
               # your code here
               # Fetch the Old workflow ID
-              export OldWorkflowID=$(aws cloudformation \
-                      list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
-                      --no-paginate --output text)
-              echo OldWorkflowID: "${OldWorkflowID}"
+              # export OldWorkflowID=$(tail -n 1 ~/project/previous-workflow-id.txt)
+              export previousWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name==\`WorkflowID\`].Value" --no-paginate --output text)
+              echo previousWorkflowID: "${previousWorkflowID}"
               echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
               # Fetch the stack names          
               export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
