@@ -247,7 +247,7 @@ jobs:
       - checkout
       # Restore from cache
       - restore_cache:
-          keys: [backend-build]
+          keys: [backend-scan]
       - run:
           name: Run migrations
           command: |
