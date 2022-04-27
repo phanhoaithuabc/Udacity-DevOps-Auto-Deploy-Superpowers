@@ -303,7 +303,7 @@ jobs:
           command: |
             sudo apt install -y gzip tar
       - attach_workspace:
-          at: ~/project/frontend
+          at: ~/
       - run:
           name: Get backend url
           command: |
@@ -331,7 +331,7 @@ jobs:
   deploy-backend:
     docker:
       # Docker image here that supports Ansible
-      - image: cimg/node:16.13.1
+      - image: python:3.7-alpine3.11
     steps:
       # Checkout code from git
       - checkout
@@ -342,12 +342,13 @@ jobs:
       # attach workspace
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
-          at: ~/project/backend
+          at: ~/
       - run:
           name: Install dependencies
           command: |
             # your code here
-            apk add --update ansible
+            apk add --update nodejs
+            apk add --update npm
       - run:
           name: Deploy backend
           command: |
