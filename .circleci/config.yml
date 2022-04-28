@@ -338,7 +338,7 @@ jobs:
       # Docker image here that supports Ansible
       - image: python:3.7-alpine3.11
     steps:
-      # Checkout code from git
+      # Checkout code from git 
       - checkout
       # - aws-cli/setup
       # Add ssh keys with fingerprint
