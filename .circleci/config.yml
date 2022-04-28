@@ -246,7 +246,7 @@ jobs:
       # Checkout code from git
       - checkout
       - restore_cache:
-          keys: [backend-scan]
+          keys: [backend-build]
       - aws-cli/setup
       - run:
           name: run migration
@@ -276,12 +276,14 @@ jobs:
                 # If you are using memstash.io, generate the token "7933fe63-4687-4fa1-8426-aa25aa1730ec" on the website
                 # curl -H "Content-Type: text/plain" -H "token: 7933fe63-4687-4fa1-8426-aa25aa1730ec" --request PUT --data "1" https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID:0:7}
                 # If you are using kvdb.io, generate the bucket ID "4WiWChKRYZreuJYXqzgZFL" in your local terminal first
+                cat ~/project/backend/migrations_dump.txt
                 curl https://kvdb.io/4WiWChKRYZreuJYXqzgZFL/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
                 echo "1" >> ~/project/backend/migration-results.txt
             else
                 cat ~/project/backend/migrations_dump.txt
                 echo "fail" >> ~/project/backend/migration-results.txt
             fi
+            cat ~/project/backend/migration-results.txt
       # Here's where you will add some code to rollback on failure      
       - persist_to_workspace:
           root: ~/
@@ -312,6 +314,8 @@ jobs:
             export API_URL="http://${BACKEND_IP}:3030"
             echo "API_URL = ${API_URL}"
             echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
+            echo NODE_ENV=production >> frontend/.env
+            echo ENVIRONMENT=production >> frontend/.env
             cat frontend/.env
       - run:
           name: Deploy frontend objects
