@@ -251,6 +251,7 @@ jobs:
       - run:
           name: run migration
           command: |
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
             echo "TYPEORM_CONNECTION = ${TYPEORM_CONNECTION}" >> ~/project/backend/.env
             echo "TYPEORM_ENTITIES = ${TYPEORM_ENTITIES}" >> ~/project/backend/.env
             echo "TYPEORM_HOST = ${TYPEORM_HOST}" >> ~/project/backend/.env
@@ -261,8 +262,8 @@ jobs:
             echo "TYPEORM_MIGRATIONS = ${TYPEORM_MIGRATIONS}" >> ~/project/backend/.env
             echo "TYPEORM_MIGRATIONS_DIR = ${TYPEORM_MIGRATIONS_DIR}" >> ~/project/backend/.env
             cd ~/project/backend
-            # source ~/.profile 
-            # nvm install v13.8.0 
+            source ~/.profile 
+            nvm install v13.8.0 
             npm install 
             # npm audit fix --audit-level=critical --force
             # npm audit fix --force
