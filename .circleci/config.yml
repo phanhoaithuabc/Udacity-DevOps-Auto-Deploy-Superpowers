@@ -495,7 +495,7 @@ jobs:
               if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${previousWorkflowID} " ]]
               then
                 # your code here
-                aws s3 rm "s3://udapeople-${previousWorkflowID}" --recursive
+                aws s3 rm "s3://${previousWorkflowID}" --recursive
                 aws cloudformation delete-stack --stack-name "udapeople-backend-${previousWorkflowID}"
                 aws cloudformation delete-stack --stack-name "udapeople-frontend-${previousWorkflowID}"
               else
