@@ -38,3 +38,28 @@
     global: yes
     production: yes
     state: present
+
+
+- name: "install prometheus"
+  become: true
+  shell: | 
+    # install
+    useradd --no-create-home node_exporter
+    wget https://github.com/prometheus/node_exporter/releases/download/v1.0.1/node_exporter-1.0.1.linux-amd64.tar.gz
+    tar xzf node_exporter-1.0.1.linux-amd64.tar.gz 
+    cp node_exporter-1.0.1.linux-amd64/node_exporter /usr/local/bin/node_exporter
+    rm -rf node_exporter-1.0.1.linux-amd64.tar.gz node_exporter-1.0.1.linux-amd64
+
+- name: "Copy Prometheus node-exporter-config to server"
+  become: true
+  copy: 
+    src: files/node-exporter.service
+    dest: /etc/systemd/system/
+
+- name: "Start Prometheus"
+  become: true
+  shell: |
+    systemctl daemon-reload
+    systemctl enable node-exporter
+    systemctl start node-exporter
+    systemctl status node-exporter
