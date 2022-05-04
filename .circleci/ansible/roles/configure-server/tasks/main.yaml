@@ -89,13 +89,13 @@
     sudo chown -R prometheus:prometheus /var/lib/prometheus
 
     sudo systemctl daemon-reload
-    sudo systemctl start prometheus
     sudo systemctl enable prometheus
+    sudo systemctl start prometheus
 
-- name: "Start Prometheus"
-  become: true
-  shell: |
-    systemctl daemon-reload
-    systemctl enable node-exporter
-    systemctl start node-exporter
-    systemctl status node-exporter
+# - name: "Start Prometheus"
+#   become: true
+#   shell: |
+#     systemctl daemon-reload
+#     systemctl enable node-exporter
+#     systemctl start node-exporter
+#     systemctl status node-exporter
