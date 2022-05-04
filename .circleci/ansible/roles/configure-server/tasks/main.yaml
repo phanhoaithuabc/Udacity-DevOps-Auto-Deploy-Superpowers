@@ -92,10 +92,16 @@
     sudo systemctl enable prometheus
     sudo systemctl start prometheus
 
-# - name: "Start Prometheus"
-#   become: true
-#   shell: |
-#     systemctl daemon-reload
-#     systemctl enable node-exporter
-#     systemctl start node-exporter
-#     systemctl status node-exporter
+- name: "copy config to server"
+  become: true
+  copy: 
+    src: files/node-exporter.service
+    dest: /etc/systemd/system/
+
+- name: "Start Prometheus"
+  become: true
+  shell: |
+    systemctl daemon-reload
+    systemctl enable node-exporter
+    systemctl start node-exporter
+    systemctl status node-exporter
